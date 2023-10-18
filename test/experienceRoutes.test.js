@@ -1,22 +1,31 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../server');
+const User = require('../models/User');
 const expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('experience API', () => {
-    userId = '652e5e63856b90c76e79e4e9';
+    before(async () => {
+      user = new User({ 
+        name: 'Jane Doe',
+        email: 'jane@email.com',
+        phone: 1236,
+      })
+      await user.save();
+      
+    });
 
     it('should create a new experience for user with userId', (done) => {
       chai.request(server)
-        .post(`/experience/${userId}`)
+        .post(`/experience/${user._id}`)
         .send({ organisation: 'ALX',
                 position: 'john@email.com',
                 startDate: '120301',
                 endDate: '120305',
                 achievements: ['Increased number of X followers by 200%'],
                 responsibilities: ['Run office errands', 'Make memes'],
-                user: `${userId}`,
+                user: `${user._id}`,
               }).end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.deep.include({ 
@@ -26,9 +35,9 @@ describe('experience API', () => {
           "endDate": '120305',
           "achievements": ['Increased number of X followers by 200%'],
           "responsibilities": ['Run office errands', 'Make memes'],
-          "user": `${userId}`,
+          "user": `${user._id}`,
         });
-          expect(res.body.user).to.be.eq(`${userId}`)
+          expect(res.body.user).to.be.eq(`${user._id}`)
 
         createdExperienceId = res.body._id;
           done();
@@ -37,7 +46,7 @@ describe('experience API', () => {
 
     it('should get all experience records by userId', (done) => {
         chai.request(server)
-         .get(`/experience/${userId}/${createdExperienceId}`)
+         .get(`/experience/${user._id}/${createdExperienceId}`)
          .end((err, res) => {
             expect(res).to.have.status(200);
             expect(res.body).to.be.an('array');
@@ -47,11 +56,15 @@ describe('experience API', () => {
 
     it('should get all experience records by userId', (done) => {
       chai.request(server)
-       .get(`/experience/${userId}`)
+       .get(`/experience/${user._id}`)
        .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.be.a('array');
           done();
         });
     });
+
+    // after(async (done) => {
+    //   await User.remove({})
+    // });
 });

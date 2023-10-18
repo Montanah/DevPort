@@ -1,28 +1,38 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../server');
+const User = require('../models/User')
 const expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('education API', () => {
-    it('should create a new education for user with userId', (done) => {
+    before(async () => {
+      user = new User({ 
+        name: 'Jack Doe',
+        email: 'jack@email.com',
+        phone: 1237,
+      })
+      await user.save();
+    });
+
+    it('should create a new education for user with user id', (done) => {
       chai.request(server)
-        .post('/education/652e5e63856b90c76e79e4e9')
-        .send({ institution: 'John Doe',
-                course: 'john@email.com',
-                startDate: '120301',
-                endDate: '120305',
-                location: 'Abuja',
-                user: '652e5e63856b90c76e79e4e9'
+        .post(`/education/${user._id}`)
+        .send({ institution: 'Jack Doe',
+                course: 'jack@email.com',
+                startDate: '120302',
+                endDate: '120307',
+                location: 'Nairobi',
+                user: `${user._id}`
               }).end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.deep.include({
-            "institution": "John Doe",
-            "course": "john@email.com",
-            "startDate": "120301",
-            "endDate": "120305",
-            "location": "Abuja",});
-          expect(res.body.user).to.be.eq('652e5e63856b90c76e79e4e9')
+            "institution": "Jack Doe",
+            "course": "jack@email.com",
+            "startDate": "120302",
+            "endDate": "120307",
+            "location": "Nairobi",});
+          expect(res.body.user).to.be.eq(`${user._id}`)
 
         createdEducationId = res.body._id;
           done();
@@ -31,7 +41,7 @@ describe('education API', () => {
 
     it('should get all education records by userId', (done) => {
         chai.request(server)
-         .get('/education/652e5e63856b90c76e79e4e9/652e677ef61932e3a5e49daf')
+         .get(`/education/${user._id}/${createdEducationId}`)
          .end((err, res) => {
             expect(res).to.have.status(200);
             expect(res.body).to.be.an('array');
@@ -41,7 +51,7 @@ describe('education API', () => {
 
     it('should get all education records by userId', (done) => {
       chai.request(server)
-       .get('/education/652e5e63856b90c76e79e4e9')
+       .get(`/education/${user._id}`)
        .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.be.a('array');
