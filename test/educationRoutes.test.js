@@ -18,8 +18,9 @@ describe('education API', () => {
     it('should create a new education for user with user id', (done) => {
       chai.request(server)
         .post(`/education/${user._id}`)
-        .send({ institution: 'Jack Doe',
-                course: 'jack@email.com',
+        .send({ institution: 'African Leadership University',
+                course: 'Computer Science',
+                degree: 'Bachelors',
                 startDate: '120302',
                 endDate: '120307',
                 location: 'Nairobi',
@@ -27,8 +28,9 @@ describe('education API', () => {
               }).end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.deep.include({
-            "institution": "Jack Doe",
-            "course": "jack@email.com",
+            "institution": "African Leadership University",
+            "course": "Computer Science",
+            "degree": "Bachelors",
             "startDate": "120302",
             "endDate": "120307",
             "location": "Nairobi",});
