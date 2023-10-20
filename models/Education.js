@@ -4,6 +4,9 @@ const educationSchema = new mongoose.Schema({
   institution: {
     type: String,
   },
+  degree: {
+    type: String,
+  },
   course: {
     type: String,
   },
