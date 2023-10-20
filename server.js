@@ -50,6 +50,22 @@ app.get("/callback", (req, res) => {
   });
 });
 
+app.get('/generate-cv/:userId', async(req, res) => {
+  try{
+    const userId = req.params.userId;
+    const pdfBuffer = await generatePDF(userId);
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename="user-cv.pdf"');
+    
+    res.send(pdfBuffer);
+
+  } catch(err) {
+    console.log(err);
+    res.status(500).send('CV generation failed')
+  }
+})
+
 app.listen(port, host, () => {
   console.log(`The server is running on ${host}:${port}`)
 })
