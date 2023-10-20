@@ -11,6 +11,10 @@ describe('experience API', () => {
         name: 'Jane Doe',
         email: 'jane@email.com',
         phone: 1236,
+        socials: [{
+          twitter: 'twitter.com/jane',
+          linkedin: 'linkedin.com/jane'
+      }]
       })
       await user.save();
       
@@ -20,20 +24,20 @@ describe('experience API', () => {
       chai.request(server)
         .post(`/experience/${user._id}`)
         .send({ organisation: 'ALX',
-                position: 'john@email.com',
+                position: 'digital marketer',
                 startDate: '120301',
                 endDate: '120305',
-                achievements: ['Increased number of X followers by 200%'],
+                achievements: ['Increased number of X followers by 200%', 'chao ming'],
                 responsibilities: ['Run office errands', 'Make memes'],
                 user: `${user._id}`,
               }).end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.deep.include({ 
           "organisation": 'ALX',
-          "position": 'john@email.com',
+          "position": 'digital marketer',
           "startDate": '120301',
           "endDate": '120305',
-          "achievements": ['Increased number of X followers by 200%'],
+          "achievements": ['Increased number of X followers by 200%', 'chao ming'],
           "responsibilities": ['Run office errands', 'Make memes'],
           "user": `${user._id}`,
         });
@@ -64,7 +68,4 @@ describe('experience API', () => {
         });
     });
 
-    // after(async (done) => {
-    //   await User.remove({})
-    // });
 });

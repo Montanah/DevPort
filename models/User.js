@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     lowercase: true,
+    unique: true,
   },
   socials:[{
     twitter: {
@@ -14,12 +15,14 @@ const userSchema = new mongoose.Schema({
       lowercase: true,
       default: null,
       required: false,
+      unique: true,
     },
     linkedIn: {
       type: String,
       lowercase: true,
       default: null,
-      required: false
+      required: false,
+      unique: true,
     }
   }],
   phone: {
