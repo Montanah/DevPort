@@ -1,7 +1,7 @@
-html {
+/* html {
     scroll-behavior: smooth;
     height: 100%;
-}
+} */
 
 .header {
     background: linear-gradient(to right, #0213ff, #000000);
