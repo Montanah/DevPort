@@ -37,7 +37,7 @@ const ESWFooter = () => {
         <div className="footer-section-about">
             <p className="logo-text">DevPort Copyright &copy; 2023</p>
             <p style={{paddingLeft: '20px'}}>
-                Powered by <a href="https://www.github.com" target="_blank">GitHub</a>
+                Powered by <a href="https://www.github.com" target="_blank" rel="noreferrer">GitHub</a>
             </p>
         </div>
         <div className="footer-section-social">
@@ -49,7 +49,7 @@ const ESWFooter = () => {
           <a href="https://www.instagram.com" target="_blank">
             <i className="fab fa-instagram">@DevPort</i>
           </a> */}
-          <a href="https://www.twitter.com" target="_blank">
+          <a href="https://www.twitter.com" target="_blank" rel="noreferrer">
             <i className="fab fa-twitter">@DevPort</i>
           </a>
           {/* <a href="https://www.linkedin.com" target="_blank">
